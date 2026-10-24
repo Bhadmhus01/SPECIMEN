@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>SPECIMEN — plant gallery</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #0e231d;
+        color: #e9efe4;
+        font: 14px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 18px;
+        align-items: baseline;
+        padding: 14px 18px 6px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 15px;
+        letter-spacing: 0.22em;
+      }
+      header p {
+        margin: 0;
+        opacity: 0.65;
+      }
+      code {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>SPECIMEN</h1>
+      <p>
+        Procedural plant gallery: every species × every form, drawn by code. Re-roll the variegation with
+        <code>?seed=123</code>; focus one species with <code>?species=monstera</code>.
+      </p>
+    </header>
+    <canvas id="sheet" aria-label="All plant species and forms"></canvas>
+    <script type="module" src="/src/gallery.ts"></script>
+  </body>
+</html>
