@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+out/
+*.log
+.DS_Store
+.vite/
+# Playtest exports can contain per-participant data; keep them out of git by default.
+playtest-results/
+e2e-out/

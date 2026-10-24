@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1f1a" />
+    <meta name="description" content="SPECIMEN: crack open a sealed pot and see what grows. A Phase 0 reveal prototype." />
+    <title>SPECIMEN</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1f1a'/%3E%3Cpath d='M16 26V14' stroke='%237fd36a' stroke-width='2.4' stroke-linecap='round'/%3E%3Cpath d='M16 15C16 9 11 7 7 8c0 5 3 8 9 7zM16 15c0-6 5-8 9-7 0 5-3 8-9 7z' fill='%237fd36a'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <noscript><p style="padding: 24px; font-family: system-ui, sans-serif; color: #eaf2e4">SPECIMEN needs JavaScript to draw and play. Please enable it and reload.</p></noscript>
+    <div id="app">
+      <canvas id="stage" aria-hidden="true"></canvas>
+
+      <!-- The sealed pot is a real button: keyboard, screen-reader and touch all work the same way. -->
+      <button id="pot-hit" class="pot-hit" type="button" aria-label="Sealed pot. Tap it to crack it open."></button>
+
+      <!-- Reveals are announced here: a region that is always present is announced far more reliably than one that appears. -->
+      <p id="sr-live" class="sr-only" role="status" aria-live="polite"></p>
+
+      <header class="hud">
+        <div class="brand">SPECIMEN</div>
+        <div class="hud-right">
+          <span class="counter" id="counter" aria-hidden="true"></span>
+          <button id="odds-btn" class="chip" type="button">Odds &amp; info</button>
+          <button id="sound-btn" class="icon-btn" type="button" aria-pressed="true" aria-label="Sound on">
+            <svg id="icon-sound-on" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M3 9v6h4l5 4V5L7 9H3z" />
+              <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" />
+            </svg>
+            <svg id="icon-sound-off" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" hidden>
+              <path fill="currentColor" d="M3 9v6h4l5 4V5L7 9H3z" />
+              <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16 9l5 6m0-6l-5 6" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <p id="hint" class="hint" hidden>Tap the pot to crack it open</p>
+
+      <section id="tag" class="tag" hidden aria-hidden="true">
+        <span class="tag-string" aria-hidden="true"></span>
+        <div class="tag-card">
+          <div class="tag-row">
+            <span class="tag-no" id="tag-no">No. 1</span>
+            <span class="tag-rarity"><span id="tag-tier">Common</span><span class="pips" id="tag-pips" aria-hidden="true"></span></span>
+          </div>
+          <h2 class="tag-latin" id="tag-latin"></h2>
+          <p class="tag-common" id="tag-common"></p>
+          <p class="tag-form" id="tag-form"></p>
+        </div>
+      </section>
+
+      <button id="one-more" class="one-more" type="button" hidden>One more</button>
+
+      <p id="toast" class="toast" role="status" hidden></p>
+
+      <dialog id="odds-dialog" class="dialog" aria-labelledby="odds-title">
+        <form method="dialog">
+          <h2 id="odds-title">Odds &amp; info</h2>
+          <p class="dialog-lead">This is a free prototype. Nothing in it can be bought, traded or cashed out.</p>
+          <table class="odds" id="odds-table">
+            <caption class="sr-only">Chance of each rarity per pot</caption>
+          </table>
+          <p class="dialog-note" id="odds-species"></p>
+          <h3>How it is made</h3>
+          <p class="dialog-note">
+            Every plant is drawn by code, and every sound is synthesised in your browser. No generative-AI images or audio are used.
+            The code was written with AI assistance.
+          </p>
+          <h3>What this test records</h3>
+          <p class="dialog-note">
+            For the playtest, this device keeps a small anonymous log: how many pots were opened and whether you asked for another.
+            It never leaves this device unless the person running the test copies it.
+          </p>
+          <p class="dialog-note" id="odds-source"></p>
+          <div class="dialog-actions"><button class="btn" value="close" autofocus>Close</button></div>
+        </form>
+      </dialog>
+
+      <aside id="facilitator" class="facilitator" hidden aria-label="Facilitator panel">
+        <div class="fac-head"><strong>Playtest</strong> <span id="fac-pid">P001</span> <button id="fac-hide" class="fac-x" type="button" aria-label="Hide facilitator panel">×</button></div>
+        <dl class="fac-stats">
+          <dt>Pots finished (this person)</dt>
+          <dd id="fac-pots">0</dd>
+          <dt>Pressed One more (this person)</dt>
+          <dd id="fac-more">0</dd>
+          <dt>Participants counted</dt>
+          <dd id="fac-people">0</dd>
+          <dt>Wanted one more</dt>
+          <dd id="fac-rate">n/a</dd>
+        </dl>
+        <p id="fac-verdict" class="fac-verdict"></p>
+        <div class="fac-row">
+          <span>Said they would open another?</span>
+          <button id="fac-yes" class="btn small" type="button">Yes</button>
+          <button id="fac-no" class="btn small" type="button">No</button>
+        </div>
+        <div class="fac-actions">
+          <button id="fac-new" class="btn small" type="button">Next participant</button>
+          <button id="fac-copy" class="btn small" type="button">Copy results</button>
+          <button id="fac-download" class="btn small" type="button">Download</button>
+          <button id="fac-reset" class="btn small danger" type="button">Erase log</button>
+        </div>
+        <p id="fac-msg" class="fac-msg" role="status"></p>
+      </aside>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

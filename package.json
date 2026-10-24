@@ -1,0 +1,28 @@
+{
+  "name": "specimen",
+  "private": true,
+  "version": "0.0.1",
+  "description": "SPECIMEN — Phase 0 reveal prototype: crack a sealed pot, reveal a procedurally drawn rare plant.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "playtest:report": "node tools/aggregate.ts",
+    "e2e": "node e2e/run.mjs",
+    "shots": "node e2e/shots.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "puppeteer-core": "^25.16.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}
