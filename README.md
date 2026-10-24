@@ -20,7 +20,7 @@ npm run dev        # http://localhost:5173  (also opens on your phone via the Ne
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Dev server with hot reload |
-| `npm run build` | Typecheck, then a static production build in `dist/` (about 110 KB, no assets to host) |
+| `npm run build` | Typecheck, then a static production build in `dist/` (about 95 KB, about 35 KB gzipped, no assets to host) |
 | `npm run preview` | Serve the production build locally |
 | `npm test` | Unit tests (Vitest, about 3 s) |
 | `npm run e2e` | Browser checks in a real Chrome: touch and keyboard playthroughs, dialogs, reduced motion, audio render |
